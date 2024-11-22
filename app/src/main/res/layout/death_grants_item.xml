@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_4sdp"
+    app:cardCornerRadius="@dimen/_6sdp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_6sdp">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_worker_nameLable"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/outfit_semibold"
+            android:text="Worker Name"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toStartOf="@id/tv_name_wwb"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_name_wwb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Ali Khan"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_worker_nameLable"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_worker_nameLable"
+            app:layout_constraintTop_toTopOf="@id/tv_worker_nameLable" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_dependentLable"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:fontFamily="@font/outfit_semibold"
+            android:text="Dependent (Legal Heir)"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_dependent_wwb"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_worker_nameLable" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_dependent_wwb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Ali | Son"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_dependentLable"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_dependentLable"
+            app:layout_constraintTop_toTopOf="@id/tv_dependentLable" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_deathDateLable"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:fontFamily="@font/outfit_semibold"
+            android:text="Date of Death"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_date_wwb"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_dependentLable" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_date_wwb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="12/05/2021"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_deathDateLable"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_deathDateLable"
+            app:layout_constraintTop_toTopOf="@id/tv_deathDateLable" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_contactLable"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:fontFamily="@font/outfit_semibold"
+            android:text="Contact"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_contact_wwb"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_deathDateLable" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_contact_wwb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="03123112021"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_contactLable"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_contactLable"
+            app:layout_constraintTop_toTopOf="@id/tv_contactLable" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_essiLable_death"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:fontFamily="@font/outfit_semibold"
+            android:text="ESSI #"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_contactLable" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_essi_death"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="2211"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_essiLable_death"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_essiLable_death"
+            app:layout_constraintTop_toTopOf="@id/tv_essiLable_death" />
+
+
+        <!--       <androidx.appcompat.widget.AppCompatTextView
+                   android:id="@+id/tv_remarks"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="@dimen/_4sdp"
+                   android:text="Remarks"
+                   android:visibility="gone"
+                   android:textColor="@color/black"
+                   android:textSize="@dimen/_12ssp"
+                   app:layout_constraintTop_toBottomOf="@id/tv_natureJobLable" />
+
+               <androidx.appcompat.widget.AppCompatEditText
+                   android:id="@+id/et_reject_reason"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_margin="@dimen/_8sdp"
+                   android:scrollbars="vertical"
+                   android:visibility="visible"
+                   android:hint="Enter remarks here..."
+                   app:layout_constraintTop_toBottomOf="@+id/tv_remarks"
+                   tools:layout_editor_absoluteX="11dp" />-->
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_approve_wwb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:backgroundTint="#4CAF50"
+            android:text="Approve"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textColor="@color/black"
+            app:cornerRadius="@dimen/_4sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_rejet_wwb"
+            app:layout_constraintTop_toBottomOf="@+id/tv_essiLable_death" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_rejet_wwb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_4sdp"
+            android:backgroundTint="#F85E5E"
+            android:text="Reject"
+            android:textColor="#FFFFFF"
+            app:cornerRadius="@dimen/_4sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_approve_wwb"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/btn_approve_wwb" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

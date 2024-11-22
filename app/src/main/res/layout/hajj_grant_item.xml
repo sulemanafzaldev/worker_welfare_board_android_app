@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/_4sdp"
+    android:layout_marginTop="@dimen/_6sdp"
+    app:cardCornerRadius="@dimen/_6sdp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_6sdp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_worker_nameLabel_hajj"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/outfit_semibold"
+            android:text="Worker Name"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toStartOf="@id/tv_name_hajj"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_name_hajj"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Ali Khan"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_worker_nameLabel_hajj"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_worker_nameLabel_hajj"
+            app:layout_constraintTop_toTopOf="@id/tv_worker_nameLabel_hajj" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_year_hajjLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:fontFamily="@font/outfit_semibold"
+            android:text="Year"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_year_hajj"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_worker_nameLabel_hajj" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_year_hajj"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="2021"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_year_hajjLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_year_hajjLabel"
+            app:layout_constraintTop_toTopOf="@id/tv_year_hajjLabel" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_contactLabel_hajj"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:fontFamily="@font/outfit_semibold"
+            android:text="Contact"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_contact_hajj"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_year_hajjLabel" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_contact_hajj"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="03123112021"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_contactLabel_hajj"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_contactLabel_hajj"
+            app:layout_constraintTop_toTopOf="@id/tv_contactLabel_hajj" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_essiLable_hajj"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:fontFamily="@font/outfit_semibold"
+            android:text="ESSI #"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_contactLabel_hajj" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_essi_hajj"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="2211"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_essiLable_hajj"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_essiLable_hajj"
+            app:layout_constraintTop_toTopOf="@id/tv_essiLable_hajj" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_approve_hajj"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:backgroundTint="#4CAF50"
+            android:text="Approve"
+            android:textColor="@color/black"
+            app:cornerRadius="@dimen/_4sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_reject_hajj"
+            app:layout_constraintTop_toBottomOf="@id/tv_essiLable_hajj" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_reject_hajj"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_4sdp"
+            android:backgroundTint="#F85E5E"
+            android:text="Reject"
+            android:textColor="#FFFFFF"
+            app:cornerRadius="@dimen/_4sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_approve_hajj"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/btn_approve_hajj" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
