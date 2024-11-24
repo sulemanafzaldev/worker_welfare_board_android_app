@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/main"
     tools:context=".ui.WorkerWalfareBoardActivity">
 
 
@@ -164,6 +163,7 @@
                     app:layout_constraintHeight_percent="0.06"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_selectfactory" />
+
 
 
                 <com.google.android.material.tabs.TabLayout

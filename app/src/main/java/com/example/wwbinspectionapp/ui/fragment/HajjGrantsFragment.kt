@@ -102,6 +102,13 @@ class HajjGrantsFragment : Fragment(), ApproveRejectListener {
                             hajjAdapter.notifyDataSetChanged()
                         }
                         else{
+                            // Hide RecyclerView and show No Data text
+                            Toast.makeText(
+                                requireContext(),
+                                result.data.message,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            binding?.tvNoDataFound?.visibility = View.VISIBLE
 
                         }
                     }

@@ -20,6 +20,7 @@ import com.example.wwbinspectionapp.auth.AuthViewModel
 import com.example.wwbinspectionapp.databinding.ActivityWorkerWalfareBoardBinding
 import com.example.wwbinspectionapp.model.factoryList.Data
 import com.example.wwbinspectionapp.utils.NetworkResult
+import com.example.wwbinspectionapp.utils.StatusBarManager
 import com.example.wwbinspectionapp.utils.TokenManager
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,26 +36,20 @@ class WorkerWalfareBoardActivity : AppCompatActivity() {
     @Inject
     lateinit var tokenManager: TokenManager
 
-    companion object{
-        var factoryId : Int= -1
+    companion object {
+        var factoryId: Int = -1
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityWorkerWalfareBoardBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-
         setupAppBarListener()
         // setupLogoutButton()
         getFactoryListFromAPI()
 
-        // Set up logout button click listener
+        StatusBarManager.changeStatusBarColor(this, window, R.color.white)
+
         binding.imgLogout.setOnClickListener {
             // Clear the saved token
             tokenManager.clearToken()
@@ -93,7 +88,7 @@ class WorkerWalfareBoardActivity : AppCompatActivity() {
 
 
         val adapter = factoryId?.let { TempAdapter(this, binding.tabLayout.tabCount, it) }
-        binding.viewPager. adapter = adapter
+        binding.viewPager.adapter = adapter
 
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -211,6 +206,12 @@ class WorkerWalfareBoardActivity : AppCompatActivity() {
 
     override fun onRestart() {
         super.onRestart()
-    getFactoryListFromAPI()
+        getFactoryListFromAPI()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finishAffinity()
+
     }
 }

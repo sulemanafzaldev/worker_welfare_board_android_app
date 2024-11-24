@@ -23,6 +23,7 @@ import com.example.wwbinspectionapp.enums.GrantType
 import com.example.wwbinspectionapp.grantList.Data
 import com.example.wwbinspectionapp.ui.WorkerWalfareBoardActivity
 import com.example.wwbinspectionapp.utils.NetworkResult
+import com.example.wwbinspectionapp.utils.StatusBarManager
 import com.example.wwbinspectionapp.utils.TokenManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -162,12 +163,13 @@ class DeathFragment : Fragment(), ApproveRejectListener {
                             binding?.rvDeathGrantList?.visibility = View.VISIBLE
                         } else {
                             // Hide RecyclerView and show No Data text
-                            binding?.tvNoDataFound?.visibility = View.VISIBLE
                             Toast.makeText(
                                 requireContext(),
                                 result.data.message,
                                 Toast.LENGTH_SHORT
                             ).show()
+                            binding?.tvNoDataFound?.visibility = View.VISIBLE
+
                         }
                     }
                 }

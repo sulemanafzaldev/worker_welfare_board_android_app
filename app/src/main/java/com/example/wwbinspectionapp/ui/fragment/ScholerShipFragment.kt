@@ -107,6 +107,12 @@ class ScholerShipFragment : Fragment(), ApproveRejectListener {
                             scholarShipGrantsList.addAll(this)
                             scholarGrantAdapter.notifyDataSetChanged()
                         } else {
+                            // Hide RecyclerView and show No Data text
+                            Toast.makeText(
+                                requireContext(),
+                                result.data.message,
+                                Toast.LENGTH_SHORT
+                            ).show()
 
                             binding.tvNoDataFound.visibility = View.VISIBLE
                         }
