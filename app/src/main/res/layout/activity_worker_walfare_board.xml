@@ -129,7 +129,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_12sdp"
                     android:gravity="center"
-                    android:text="Worker Walfare Board"
+                    android:text="Worker Welfare Board"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_22ssp"
                     android:textStyle="bold"
@@ -151,8 +151,22 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
+
+                <SearchView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:queryHint="search Factory"
+                    android:visibility="gone"
+                    android:layout_marginHorizontal="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:paddingStart="@dimen/_6sdp"
+                    android:paddingEnd="@dimen/_6sdp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_selectfactory"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:id="@+id/searc_factory"/>
                 <!-- Select Factory Dropdown -->
-                <androidx.appcompat.widget.AppCompatSpinner
+                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                     android:id="@+id/spinner_factory_wwb"
                     style="@style/Spinner"
                     android:layout_width="0dp"

@@ -20,7 +20,7 @@
             android:layout_width="@dimen/_120sdp"
             android:layout_height="@dimen/_120sdp"
             android:layout_marginTop="@dimen/_30sdp"
-            android:src="@drawable/ic_labour_kp"
+            android:src="@drawable/wwb_img"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

@@ -70,17 +70,15 @@ class SignInActivity : AppCompatActivity() {
             when (result) {
                 is NetworkResult.Success -> {
                     binding.progressLayout.root.visibility = View.GONE
-
                     val loginResp = result.data
-
                     if (loginResp != null && loginResp.success) {
                         tokenManager.saveToken(loginResp.token)
                         tokenManager.saveDepartmentType(loginResp.department.d_type)
 
                         Log.d("suleman", "response- ${result.data}");
 
-                        redirecActivity(savedepType)
-                        finish()
+                        redirecActivity(loginResp.department.d_type) // Pass the new depType here
+                      //  finish()
                     } else {
                         binding.progressLayout.root.visibility = View.GONE
                         val errormsg = result.message ?: "Login Failed"

@@ -3,6 +3,7 @@
     <style name="Base.Theme.WWBInspectionApp" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:windowIsTranslucent"> true </item>
     </style>
 
     <style name="Theme.WWBInspectionApp" parent="Base.Theme.WWBInspectionApp" />

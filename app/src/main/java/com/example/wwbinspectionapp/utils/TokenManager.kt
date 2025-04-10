@@ -34,6 +34,7 @@ class TokenManager @Inject constructor(@ApplicationContext context: Context) {
     }
 
     // Method to clear the saved token and department type
+
     fun clearToken() {
         val editor = prefs.edit()
         editor.remove(USER_TOKEN)

@@ -1,6 +1,8 @@
+// ScholarShipFragment.kt
 package com.example.wwbinspectionapp.ui.fragment
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,20 +10,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wwbinspectionapp.OnClick.ApproveRejectListener
 import com.example.wwbinspectionapp.R
-import com.example.wwbinspectionapp.adapter.HajjAdapter
-import com.example.wwbinspectionapp.adapter.MarriageGrantAdapter
 import com.example.wwbinspectionapp.adapter.ScholarShipAdapter
 import com.example.wwbinspectionapp.auth.AuthViewModel
 import com.example.wwbinspectionapp.databinding.FragmentScholerShipBinding
 import com.example.wwbinspectionapp.enums.GrantType
 import com.example.wwbinspectionapp.grantList.Data
-import com.example.wwbinspectionapp.ui.WorkerWalfareBoardActivity
+import com.example.wwbinspectionapp.ui.WorkerWalfareViewModel
 import com.example.wwbinspectionapp.utils.NetworkResult
 import com.example.wwbinspectionapp.utils.TokenManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,33 +30,22 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ScholerShipFragment : Fragment(), ApproveRejectListener {
 
-    private val viewModel: AuthViewModel by viewModels()
+    private var _binding: FragmentScholerShipBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var scholarShipAdapter: ScholarShipAdapter
+    private val scholarShipGrantsList = ArrayList<Data>()
+
     @Inject
     lateinit var tokenManager: TokenManager
-    private val scholarShipGrantsList = ArrayList<Data>()
-    private lateinit var scholarGrantAdapter: ScholarShipAdapter
 
-    private lateinit var binding: FragmentScholerShipBinding
+    private val viewModel: AuthViewModel by viewModels()
+    private val workerWalfareViewModel: WorkerWalfareViewModel by activityViewModels()
 
     private var factoryId: Int = -1
 
-    companion object {
-        private const val ARG_FACTORY_ID = "factory_id"
-
-        // Create a new instance of the fragment with factoryId as an argument
-        fun newInstance(factoryId: Int): ScholerShipFragment {
-            val fragment = ScholerShipFragment()
-            val args = Bundle()
-            args.putInt(ARG_FACTORY_ID, factoryId)
-            fragment.arguments = args
-            return fragment
-        }
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            factoryId = it.getInt(ARG_FACTORY_ID)
-        }
+        // Removed factoryId from arguments as we're using ViewModel
     }
 
     override fun onCreateView(
@@ -64,70 +53,135 @@ class ScholerShipFragment : Fragment(), ApproveRejectListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentScholerShipBinding.inflate(inflater, container, false)
+        _binding = FragmentScholerShipBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setupRecyclerView()
+     //   setupSwipeRefresh()
+        observeGrantList()
+
+        // Observe factoryId from the shared ViewModel
+        workerWalfareViewModel.factoryId.observe(viewLifecycleOwner) { newFactoryId ->
+            if (factoryId != newFactoryId) {
+                factoryId = newFactoryId
+                // Reload data for the new factory
+                getGrantList()
+            }
+        }
+
+        // Optionally, load data initially if factoryId is already set
+        workerWalfareViewModel.factoryId.value?.let {
+            factoryId = it
+            getGrantList()
+        }
     }
 
     private fun setupRecyclerView() {
-        // Sample data for the adapter
-
-        scholarGrantAdapter = ScholarShipAdapter(scholarShipGrantsList, this)
-
-        // Set up RecyclerView with a LinearLayoutManager
-        binding.rvScholarShip.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvScholarShip.adapter = scholarGrantAdapter
-        binding.rvScholarShip.setHasFixedSize(true)
-
-        getGrantList()
+        scholarShipAdapter = ScholarShipAdapter(scholarShipGrantsList, this)
+        binding.rvScholarShip.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = scholarShipAdapter
+            setHasFixedSize(true)
+        }
     }
 
-    private fun getGrantList() {
-        val barToken = tokenManager.getToken()
+/*
+    private fun setupSwipeRefresh() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            getGrantList()
+        }
+    }
+*/
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun observeGrantList() {
         viewModel.grantListResponseLiveData.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is NetworkResult.Error -> {
-                    Toast.makeText(requireContext(), result.message, Toast.LENGTH_SHORT).show()
-                    binding.progressLayout.root.visibility = View.GONE
+                    showToast(result.message)
+                    hideLoading()
+                    showNoData()
                 }
-
                 is NetworkResult.Loading -> {
-                    binding.progressLayout.root.visibility = View.VISIBLE
+                    showLoading()
                 }
-
                 is NetworkResult.Success -> {
-                    binding.progressLayout.root.visibility = View.GONE
-                    result.data?.data?.apply {
-                        if (this.isNotEmpty()) {
+                    hideLoading()
+               //     binding.swipeRefreshLayout.isRefreshing = false
+                    result.data?.data?.let { dataList ->
+                        if (dataList.isNotEmpty()) {
                             scholarShipGrantsList.clear()
-                            scholarShipGrantsList.addAll(this)
-                            scholarGrantAdapter.notifyDataSetChanged()
+                            scholarShipGrantsList.addAll(dataList)
+                            scholarShipAdapter.notifyDataSetChanged()
+                            showData()
                         } else {
                             // Hide RecyclerView and show No Data text
-                            Toast.makeText(
-                                requireContext(),
-                                result.data.message,
-                                Toast.LENGTH_SHORT
-                            ).show()
-
+                            binding.rvScholarShip.visibility = View.GONE
                             binding.tvNoDataFound.visibility = View.VISIBLE
+                            //showToast(result.data.message)
                         }
                     }
                 }
             }
         }
-        if (barToken != null)
-            viewModel.getGrantList(
-                barToken,
-                GrantType.scholarship_applications.name,
-                WorkerWalfareBoardActivity.factoryId ?: -1
-            )
     }
 
+    private fun getGrantList() {
+        val barToken = tokenManager.getToken()
+        if (barToken != null && factoryId != -1) {
+            viewModel.getGrantList(
+                authToken = barToken,
+                grantType = GrantType.scholarship_applications.name,
+                factoryId = factoryId
+            )
+        } else {
+            showToast("Invalid factory selection or missing token.")
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onApproveClickListener(
+        position: Int,
+        app_status: String,
+        grantId: Int,
+        factoryWorkerId: Int
+    ) {
+        val barToken = tokenManager.getToken()
+        if (barToken != null) {
+            viewModel.approveGrant(
+                authToken = barToken,
+                grantType = GrantType.scholarship_applications.name,
+                appStatus = "approved",
+                grantId = grantId,
+                factoryWorkerId = factoryWorkerId
+            )
+        }
+
+        Log.d(
+            "GrantActionScholar",
+            "approveGrant called with Token: $barToken, GrantType: ${GrantType.scholarship_applications.name}, " +
+                    "AppStatus: approved, Grant ID: $grantId, Factory Worker ID: $factoryWorkerId"
+        )
+
+        scholarShipGrantsList.removeAt(position)
+        scholarShipAdapter.notifyItemRemoved(position)
+        showToast("Approved")
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onRejectClickListener(
+        position: Int,
+        app_status: String,
+        grantId: Int,
+        factoryWorkerId: Int
+    ) {
+        Log.d("GrantAction", "User clicked Reject. Status: $app_status, Grant ID: $grantId, Worker ID: $factoryWorkerId")
+        showRejectDialog(position, grantId, factoryWorkerId)
+    }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun showRejectDialog(
@@ -136,95 +190,84 @@ class ScholerShipFragment : Fragment(), ApproveRejectListener {
         factoryWorkerId: Int
     ) {
         val builder = AlertDialog.Builder(requireContext())
-        val input = EditText(requireContext())
-        input.hint = "Enter your remarks"
+        val input = EditText(requireContext()).apply {
+            hint = "Enter your remarks"
+        }
 
         builder.setTitle("Reject Request")
-        builder.setMessage("Please provide remarks for rejection")
+            .setMessage("Please provide remarks for rejection")
+            .setView(input)
+            .setCancelable(false)
+            .setPositiveButton("Reject") { dialog, _ ->
+                val remarks = input.text.toString()
 
-        builder.setView(input)
-        builder.setCancelable(false)
+                if (remarks.isNotEmpty()) {
+                    val barToken = tokenManager.getToken()
 
-        builder.setPositiveButton("Reject") { dialog, _ ->
-            val remarks = input.text.toString()
+                    if (barToken != null) {
+                        viewModel.approveGrant(
+                            authToken = barToken,
+                            grantType = GrantType.scholarship_applications.name,
+                            appStatus = "rejected", // Set app status to "reject"
+                            grantId = grantId,
+                            factoryWorkerId = factoryWorkerId
+                        )
+                    }
 
-            if (remarks.isNotEmpty()) {
-                val barToken = tokenManager.getToken()
-
-                if (barToken != null) {
-                    // Call the approveGrant function with the reject status
-                    viewModel.approveGrant(
-                        authToken = barToken,
-                        grantType = GrantType.scholarship_applications.name, // Use the correct grant type for scholarships
-                        appStatus = "rejected", // Set app status to "rejected"
-                        grantId = grantId,
-                        factoryWorkerId = factoryWorkerId
+                    Log.d(
+                        "GrantActionScholar",
+                        "approveGrant called with Token: $barToken, GrantType: ${GrantType.scholarship_applications.name}, " +
+                                "AppStatus: rejected, Grant ID: $grantId, Factory Worker ID: $factoryWorkerId"
                     )
+
+                    scholarShipGrantsList.removeAt(position)
+                    scholarShipAdapter.notifyItemRemoved(position)
+                    showToast("Rejected: $remarks")
+                    dialog.dismiss()
+                } else {
+                    showToast("Remarks are required")
                 }
-
-                // Log the action for debugging
-                Log.d(
-                    "GrantActionsch",
-                    "approveGrant called with Token: $barToken, GrantType: ${GrantType.scholarship_applications.name}, " +
-                            "AppStatus: rejected, Grant ID: $grantId, Factory Worker ID: $factoryWorkerId"
-                )
-
-                // Optionally remove the item from the list
-                scholarShipGrantsList.removeAt(position)
-                scholarGrantAdapter.notifyDataSetChanged()
-                Toast.makeText(requireContext(), "Rejected: $remarks", Toast.LENGTH_SHORT).show()
-                dialog.dismiss()
-            } else {
-                Toast.makeText(requireContext(), "Remarks are required", Toast.LENGTH_SHORT).show()
             }
-        }
-
-        builder.setNegativeButton("Cancel") { dialog, _ ->
-            dialog.dismiss()
-        }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
 
         builder.create().show()
     }
 
-    override fun onApproveClickListener(
-        position: Int,
-        app_status: String,
-        grantId: Int,
-        factoryWorkerId: Int
-    ) {
-        val barToken = tokenManager.getToken()
+    override fun onResume() {
+        super.onResume()
+        getGrantList()
+    }
 
-        if (barToken != null) {
-            // Call the approveGrant function with the approve status
-            viewModel.approveGrant(
-                authToken = barToken,
-                grantType = GrantType.scholarship_applications.name, // Use the correct grant type for scholarships
-                appStatus = "approved", // Set app status to "approved"
-                grantId = grantId,
-                factoryWorkerId = factoryWorkerId
-            )
+    private fun showLoading() {
+        binding.progressLayout.root.visibility = View.VISIBLE
+        binding.rvScholarShip.visibility = View.GONE
+        binding.tvNoDataFound.visibility = View.GONE
+    }
+
+    private fun hideLoading() {
+        binding.progressLayout.root.visibility = View.GONE
+    }
+
+    private fun showData() {
+        binding.rvScholarShip.visibility = View.VISIBLE
+        binding.tvNoDataFound.visibility = View.GONE
+    }
+
+    private fun showNoData() {
+        binding.rvScholarShip.visibility = View.GONE
+        binding.tvNoDataFound.visibility = View.VISIBLE
+    }
+
+    private fun showToast(message: String?) {
+        message?.let {
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
         }
-
-        // Log the action for debugging
-        Log.d(
-            "GrantAction",
-            "approveGrant called with Token: $barToken, GrantType: ${GrantType.scholarship_applications.name}, " +
-                    "AppStatus: approved, Grant ID: $grantId, Factory Worker ID: $factoryWorkerId"
-        )
-
-        // Optionally remove the item from the list
-        scholarShipGrantsList.removeAt(position)
-        scholarGrantAdapter.notifyDataSetChanged()
-        Toast.makeText(requireActivity(), "Approved", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onRejectClickListener(
-        position: Int,
-        app_status: String,
-        grantId: Int,
-        factoryWorkerId: Int
-    ) {
-        showRejectDialog(position, grantId, factoryWorkerId)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
-
 }

@@ -17,6 +17,17 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="str_no_data_available">No Data Available</string>
+    <string name="str_father_name">Father Name</string>
+    <string name="str_essi">ESSI #</string>
+    <string name="str_institute">Institute</string>
+    <string name="str_course">Course</string>
+    <string name="str_session">Session</string>
+    <string name="str_student_name">Student Name</string>
+    <string name="str_worker_name">Worker Name</string>
+    <string name="str_dependent_legal_heir">Dependent (Legal Heir)</string>
+    <string name="str_date_of_death">Date of Death</string>
+    <string name="str_contact">Contact</string>
 
 
 </resources>

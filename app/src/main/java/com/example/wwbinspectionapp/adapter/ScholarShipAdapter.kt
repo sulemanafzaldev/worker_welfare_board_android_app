@@ -32,6 +32,7 @@ class ScholarShipAdapter(
             binding.tvFatherNameScholarship.text = scholarship.factory_worker?.workers?.name?:""
             binding.tvInstituteScholarship.text = scholarship.educational_institute?.name?:""
             binding.tvScholarshipCourse.text = scholarship.course?.course?:""
+            binding.tvEssiScholarship.text = scholarship.factory_worker?.workers?.essi_no ?: ""
             binding.tvSessionScholarship.text = scholarship.session?:""
 
             binding.btnApproveScholarship.setOnClickListener {
